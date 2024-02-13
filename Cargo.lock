@@ -3,6 +3,12 @@
 version = 3
 
 [[package]]
+name = "anyhow"
+version = "1.0.79"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "080e9890a082662b09c1ad45f567faeeb47f22b5fb23895fbe1e651e718e25ca"
+
+[[package]]
 name = "async-channel"
 version = "2.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -131,6 +137,7 @@ dependencies = [
 name = "dll"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "interprocess",
  "once_cell",
  "retour",
@@ -270,6 +277,7 @@ dependencies = [
 name = "injector"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "dll-syringe",
  "interprocess",
 ]
@@ -850,6 +858,14 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dff9641d1cd4be8d1a070daf9e3773c5f67e78b4d9d42263020c057706765c04"
 
 [[patch.unused]]
+name = "hikari-boot"
+version = "0.1.0"
+
+[[patch.unused]]
+name = "hikari-components"
+version = "0.1.0"
+
+[[patch.unused]]
 name = "tairitsu-boot"
 version = "0.1.0"
 
@@ -859,12 +875,4 @@ version = "0.1.0"
 
 [[patch.unused]]
 name = "tairitsu-vm"
-version = "0.1.0"
-
-[[patch.unused]]
-name = "hikari-boot"
-version = "0.1.0"
-
-[[patch.unused]]
-name = "hikari-components"
 version = "0.1.0"

@@ -4,5 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+anyhow = "^1"
 dll-syringe = "^0.15"
 interprocess = "^1.2"
