@@ -1,0 +1,8 @@
+[package]
+name = "injector"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+dll-syringe = "^0.15"
+interprocess = "^1.2"
