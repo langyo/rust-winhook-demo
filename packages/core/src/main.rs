@@ -1,7 +1,8 @@
 use windows::{core::*, Win32::System::LibraryLoader::LoadLibraryA};
 
 fn main() {
-    std::thread::sleep(std::time::Duration::from_millis(100));
+    println!("Waiting 1s for hook");
+    std::thread::sleep(std::time::Duration::from_millis(1000));
 
     println!("Loading kernel32.dll");
     unsafe {

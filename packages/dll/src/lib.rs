@@ -23,7 +23,7 @@ static hook_LoadLibraryA: Lazy<GenericDetour<fn_LoadLibraryA>> = Lazy::new(|| {
     let library_handle = unsafe { LoadLibraryA(PCSTR(b"kernel32.dll\0".as_ptr() as _)) }.unwrap();
     let address = unsafe { GetProcAddress(library_handle, PCSTR(b"LoadLibraryA\0".as_ptr() as _)) };
     let ori: fn_LoadLibraryA = unsafe { std::mem::transmute(address) };
-    return unsafe { GenericDetour::new(ori, our_LoadLibraryA).unwrap() };
+    unsafe { GenericDetour::new(ori, our_LoadLibraryA).unwrap() }
 });
 
 extern "system" fn our_LoadLibraryA(lpFileName: PCSTR) -> HMODULE {
@@ -36,7 +36,7 @@ extern "system" fn our_LoadLibraryA(lpFileName: PCSTR) -> HMODULE {
         file_name, ret_val.0
     );
     unsafe { hook_LoadLibraryA.enable().unwrap() };
-    return ret_val;
+    ret_val
 }
 
 #[no_mangle]
@@ -56,5 +56,5 @@ unsafe extern "system" fn DllMain(_hinst: HANDLE, reason: u32, _reserved: *mut c
         DLL_THREAD_DETACH => {}
         _ => {}
     };
-    return BOOL::from(true);
+    BOOL::from(true)
 }
