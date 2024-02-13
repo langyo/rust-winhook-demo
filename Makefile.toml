@@ -6,6 +6,15 @@ skip_core_tasks = true
 script = '''
 #!@duckscript
 
+exec cargo +nightly build -p rust-winhook-demo-core --release
+exec cargo +nightly build -p dll --release
+exec cargo +nightly run -p injector --release
+'''
+
+[tasks.run-x86]
+script = '''
+#!@duckscript
+
 exec cargo +nightly build -p rust-winhook-demo-core --target i686-pc-windows-msvc --release
 exec cargo +nightly build -p dll --target i686-pc-windows-msvc --release
 exec cargo +nightly run -p injector --target i686-pc-windows-msvc --release

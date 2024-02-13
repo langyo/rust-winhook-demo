@@ -43,6 +43,7 @@ extern "system" fn our_LoadLibraryA(lpFileName: PCSTR) -> HMODULE {
 unsafe extern "system" fn DllMain(_hinst: HANDLE, reason: u32, _reserved: *mut c_void) -> BOOL {
     match reason {
         DLL_PROCESS_ATTACH => {
+            // TODO - Use `interprocess` to communicate with the injector by named pipe
             println!("DLL attached");
             unsafe {
                 hook_LoadLibraryA.enable().unwrap();

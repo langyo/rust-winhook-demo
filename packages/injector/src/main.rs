@@ -6,9 +6,13 @@ use dll_syringe::{
 fn main() {
     // Run the target process first
     std::thread::spawn(|| {
-        std::process::Command::new(
-            "target/i686-pc-windows-msvc/release/rust-winhook-demo-core.exe",
-        )
+        std::process::Command::new({
+            if cfg!(target_arch = "x86") {
+                "target/i686-pc-windows-msvc/release/rust-winhook-demo-core.exe"
+            } else {
+                "target/release/rust-winhook-demo-core.exe"
+            }
+        })
         .spawn()
         .unwrap();
     });
@@ -22,7 +26,13 @@ fn main() {
 
     // inject the payload into the target process
     let injected_payload = syringe
-        .inject("target/i686-pc-windows-msvc/release/dll.dll")
+        .inject({
+            if cfg!(target_arch = "x86") {
+                "target/i686-pc-windows-msvc/release/dll.dll"
+            } else {
+                "target/release/dll.dll"
+            }
+        })
         .unwrap();
     if injected_payload.guess_is_loaded() {
         println!("DLL injected successfully");
