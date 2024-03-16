@@ -63,14 +63,14 @@ impl Pipe {
 
     pub fn write<T: Serialize>(&mut self, data: &T) -> Result<()> {
         self.do_write(data).map_err(|err| {
-            println!("Pipe failed to write: {:?}", err);
+            log::error!("Pipe failed to write: {:?}", err);
             err
         })
     }
 
     pub fn read<T: for<'de> Deserialize<'de>>(&mut self) -> Result<T> {
         self.do_read().map_err(|err| {
-            println!("Pipe failed to read: {:?}", err);
+            log::error!("Pipe failed to read: {:?}", err);
             err
         })
     }

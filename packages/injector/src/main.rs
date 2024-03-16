@@ -1,4 +1,3 @@
-use anyhow::Result;
 use dll_syringe::{
     process::{OwnedProcess, Process},
     Syringe,
@@ -9,17 +8,17 @@ use _utils::*;
 fn main() {
     env_logger::init();
 
-    std::thread::spawn(|| {
+    let server = std::thread::spawn(|| {
         let mut conn = create_server("rust_winhook_demo".to_string()).unwrap();
         println!("[runtime] Named pipe server is running");
 
         loop {
-            match conn.read() as Result<String> {
-                Ok(msg) => {
-                    println!("[runtime] {}", msg);
-                }
-                Err(err) => {
-                    println!("[runtime] Named pipe server error: {}", err);
+            let msg: Msg = conn.read().unwrap();
+            match msg {
+                Msg::Log(s) => println!("[dll] {}", s),
+                Msg::Terminated => {
+                    println!("[dll] Terminated");
+                    break;
                 }
             }
         }
@@ -65,4 +64,6 @@ fn main() {
     })
     .join()
     .unwrap();
+
+    server.join().unwrap();
 }

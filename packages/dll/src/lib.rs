@@ -46,25 +46,17 @@ fn ipc_println(s: impl ToString) {
         .clone()
         .lock()
         .unwrap()
-        .write(&format!("[dll] {}", s.to_string()))
+        .write(&Msg::Log(s.to_string()))
         .unwrap();
 }
 
 extern "system" fn our_LoadLibraryA(lpFileName: PCSTR) -> HMODULE {
     let file_name = unsafe { CStr::from_ptr(lpFileName.as_ptr() as _) };
     ipc_println(format!("our_LoadLibraryA lpFileName = {:?}", file_name));
-    ipc_println(format!(
-        "IPC our_LoadLibraryA lpFileName = {:?}\n",
-        file_name
-    ));
     unsafe { hook_LoadLibraryA.disable().unwrap() };
     let ret_val = hook_LoadLibraryA.call(lpFileName);
     ipc_println(format!(
         "our_LoadLibraryA lpFileName = {:?} ret_val = {:#X}",
-        file_name, ret_val.0
-    ));
-    ipc_println(format!(
-        "IPC our_LoadLibraryA lpFileName = {:?} ret_val = {:#X}\n",
         file_name, ret_val.0
     ));
     unsafe { hook_LoadLibraryA.enable().unwrap() };
@@ -74,16 +66,16 @@ extern "system" fn our_LoadLibraryA(lpFileName: PCSTR) -> HMODULE {
 #[no_mangle]
 unsafe extern "system" fn DllMain(_hinst: HANDLE, reason: u32, _reserved: *mut c_void) -> BOOL {
     match reason {
-        DLL_PROCESS_ATTACH => {
-            // TODO - Use `interprocess` to communicate with the injector by named pipe
-            ipc_println("DLL attached");
-            unsafe {
-                hook_LoadLibraryA.enable().unwrap();
-            }
-        }
+        DLL_PROCESS_ATTACH => unsafe {
+            hook_LoadLibraryA.enable().unwrap();
+        },
         DLL_PROCESS_DETACH => {
-            ipc_println("DLL detached");
-            ipc_println("stop\n");
+            ipc_client
+                .clone()
+                .lock()
+                .unwrap()
+                .write(&Msg::Terminated)
+                .unwrap();
         }
         DLL_THREAD_ATTACH => {}
         DLL_THREAD_DETACH => {}
