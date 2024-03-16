@@ -1,25 +1,17 @@
 [package]
-name = "dll"
-version = "0.1.0"
-edition = "2021"
+name = "_dll"
+version.workspace = true
+edition.workspace = true
 
 [lib]
 crate-type = ["cdylib"]
 
 [dependencies]
-anyhow = "^1"
-once_cell = "^1"
-windows = { version = "^0.52", features = [
-    "Win32_Foundation",
-    "Win32_System_Console",
-    "Win32_System_LibraryLoader",
-    "Win32_System_SystemServices",
-    "Win32_Graphics_Gdi",
-    "Win32_Graphics_Direct3D",
-    "Win32_Graphics_Direct3D11",
-    "Win32_Graphics_Dxgi",
-    "Win32_Graphics_Dxgi_Common",
-    "Win32_UI_WindowsAndMessaging",
-] }
+_utils = { path = "../utils" }
+
+anyhow = { workspace = true }
+once_cell = { workspace = true }
+env_logger = { workspace = true }
+
+windows = { workspace = true }
 retour = { version = "^0.3", features = ["static-detour"] }
-interprocess = "^1.2"

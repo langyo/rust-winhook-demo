@@ -1,9 +1,12 @@
 [package]
-name = "injector"
-version = "0.1.0"
-edition = "2021"
+name = "_injector"
+version.workspace = true
+edition.workspace = true
 
 [dependencies]
-anyhow = "^1"
+_utils = { path = "../utils" }
+
+anyhow = { workspace = true }
+env_logger = { workspace = true }
+
 dll-syringe = "^0.15"
-interprocess = "^1.2"
