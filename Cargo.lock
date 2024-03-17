@@ -1770,23 +1770,3 @@ name = "windows_x86_64_msvc"
 version = "0.52.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "32b752e52a2da0ddfbdbcc6fceadfeede4c939ed16d13e648833a61dfb611ed8"
-
-[[patch.unused]]
-name = "hikari-boot"
-version = "0.1.0"
-
-[[patch.unused]]
-name = "hikari-components"
-version = "0.1.0"
-
-[[patch.unused]]
-name = "tairitsu-boot"
-version = "0.1.0"
-
-[[patch.unused]]
-name = "tairitsu-utils"
-version = "0.1.0"
-
-[[patch.unused]]
-name = "tairitsu-vm"
-version = "0.1.0"
