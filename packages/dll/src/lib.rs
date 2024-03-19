@@ -21,6 +21,10 @@ unsafe extern "system" fn DllMain(_hinst: HANDLE, reason: u32, _reserved: *mut c
     match reason {
         DLL_PROCESS_ATTACH => unsafe {
             modules::eat_test::hooker.enable().unwrap();
+
+            std::thread::spawn(|| {
+                modules::inline_test::init_inline_hook().unwrap();
+            });
         },
         DLL_PROCESS_DETACH => {
             ipc_client

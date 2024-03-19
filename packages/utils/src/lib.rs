@@ -8,4 +8,5 @@ pub use pipe::*;
 pub enum Msg {
     Log(String),
     Terminated,
+    TransferHookAddress(usize),
 }

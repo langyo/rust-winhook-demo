@@ -8,9 +8,8 @@ use _utils::*;
 fn main() {
     env_logger::init();
 
-    let server = std::thread::spawn(|| {
-        let mut conn = create_server("rust_winhook_demo".to_string()).unwrap();
-        println!("[runtime] Named pipe server is running");
+    let dll_ipc_service = std::thread::spawn(move || {
+        let mut conn = create_server("rust_winhook_dll".to_string()).unwrap();
 
         loop {
             let msg: Msg = conn.read().unwrap();
@@ -20,6 +19,7 @@ fn main() {
                     println!("[dll] Terminated");
                     break;
                 }
+                _ => unreachable!(),
             }
         }
     });
@@ -65,5 +65,5 @@ fn main() {
     .join()
     .unwrap();
 
-    server.join().unwrap();
+    dll_ipc_service.join().unwrap();
 }

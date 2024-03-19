@@ -1,6 +1,3 @@
-#![cfg(windows)]
-#![allow(non_upper_case_globals, non_snake_case, non_camel_case_types)]
-
 use once_cell::sync::Lazy;
 use std::ffi::CStr;
 
@@ -15,13 +12,12 @@ use windows::{
 
 use crate::utils::ipc_println;
 
-#[allow(non_snake_case)]
-type fn_LoadLibraryA = extern "system" fn(PCSTR) -> HMODULE;
+type HookFnType = extern "system" fn(PCSTR) -> HMODULE;
 
-pub static hooker: Lazy<GenericDetour<fn_LoadLibraryA>> = Lazy::new(|| {
+pub static hooker: Lazy<GenericDetour<HookFnType>> = Lazy::new(|| {
     let library_handle = unsafe { LoadLibraryA(PCSTR(b"kernel32.dll\0".as_ptr() as _)) }.unwrap();
     let address = unsafe { GetProcAddress(library_handle, PCSTR(b"LoadLibraryA\0".as_ptr() as _)) };
-    let ori: fn_LoadLibraryA = unsafe { std::mem::transmute(address) };
+    let ori: HookFnType = unsafe { std::mem::transmute(address) };
     unsafe { GenericDetour::new(ori, our_LoadLibraryA).unwrap() }
 });
 
