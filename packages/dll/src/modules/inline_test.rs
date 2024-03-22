@@ -42,7 +42,7 @@ extern "C" fn our_add_42(_input: i32) -> i32 {
             .unwrap()
             .as_ref()
             .unwrap()
-            .enable()
+            .disable()
             .unwrap()
     };
 
@@ -55,7 +55,7 @@ extern "C" fn our_add_42(_input: i32) -> i32 {
             .unwrap()
             .as_ref()
             .unwrap()
-            .disable()
+            .enable()
             .unwrap()
     };
 
