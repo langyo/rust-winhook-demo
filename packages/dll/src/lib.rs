@@ -17,7 +17,7 @@ use _utils::*;
 use utils::*;
 
 #[no_mangle]
-unsafe extern "system" fn DllMain(_hinst: HANDLE, reason: u32, _reserved: *mut c_void) -> BOOL {
+extern "system" fn DllMain(_hinst: HANDLE, reason: u32, _reserved: *mut c_void) -> BOOL {
     match reason {
         DLL_PROCESS_ATTACH => unsafe {
             modules::eat_test::hooker.enable().unwrap();
